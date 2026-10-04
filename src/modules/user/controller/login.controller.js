@@ -3,10 +3,17 @@ const jwt = require('jsonwebtoken');
 
 const login = async (req, res) => {
     const { email, password } = req.body;
+    const { loginFrom } = req.query; // Get the loginFrom value from the request query
 
     try {
-        // Find a user by their email and password
-        const user = await userModel.findOne({ email, password });
+        let user;
+        if(loginFrom === 'google') {
+            // Find a user by their email only for Google login
+            user = await userModel.findOne({ email });
+        } else {
+            // Find a user by their email and password
+            user = await userModel.findOne({ email, password });
+        }
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
