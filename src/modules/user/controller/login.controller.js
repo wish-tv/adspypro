@@ -7,9 +7,11 @@ const login = async (req, res) => {
 
     try {
         let user;
-        if(loginFrom === 'google') {
-            // Find a user by their email only for Google login
-            user = await userModel.findOne({ email });
+        if (loginFrom === 'google') {
+            if (req.headers['x-server-key'] !== process.env.SERVER_KEY) {
+                return res.status(403).json({ message: 'Forbidden' });
+            }
+            user = await userModel.findOne({ email: String(email) });
         } else {
             // Find a user by their email and password
             user = await userModel.findOne({ email, password });
