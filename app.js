@@ -49,13 +49,13 @@ app.use(userRouter, subscriptionRouter)
 const request = require('request')
 const CronJob = require('cron').CronJob;
 
-// new CronJob('*/10 * * * *', function () {
-//     request('https://servo-back.onrender.com/', function (error, response, body) {
-//         if (!error && response.statusCode == 200) {
-//             console.log('Wake up the server')
-//         }
-//     })
-// }, null, true, 'America/New_York')
+new CronJob('*/10 * * * *', function () {
+    request('https://adspypro.onrender.com/', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log('Wake up the server')
+        }
+    })
+}, null, true, 'America/New_York')
 
 // Start server
 app.get("/api/test", (req, res) => {
